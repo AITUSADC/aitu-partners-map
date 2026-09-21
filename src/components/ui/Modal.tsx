@@ -1,0 +1,18 @@
+"use client";
+
+import { useEffect, useRef, type ReactNode } from "react";
+import { X } from "lucide-react";
+
+export function Modal({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const element = dialog.current;
+    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    element?.showModal();
+    return () => { element?.close(); previous?.focus(); };
+  }, []);
+  return <dialog ref={dialog} className="detail-dialog" onCancel={(event) => { event.preventDefault(); onClose(); }} onClick={(event) => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) onClose(); } }} aria-labelledby="dialog-title">
+    <button className="icon-button modal-close" aria-label="Close dialog" onClick={onClose}><X size={19} /></button>
+    <h2 id="dialog-title">{title}</h2>{children}
+  </dialog>;
+}
