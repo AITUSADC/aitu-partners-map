@@ -45,7 +45,8 @@ Without a token, the interface displays **“Mapbox token required”** and a cl
 - Close the card, press Escape, or use reset view to clear selection.
 - Use + / −, **Go to AITU**, and **Reset map view** in the lower right.
 - On mobile, expand the discovery sheet using its handle or chevron. Categories scroll horizontally.
-- Press `/` or use the header search button to focus partner search.
+- Press `/` to focus partner search.
+- The Digital Committee logo opens [the committee's Telegram](https://t.me/aitu_digital_committee), and **Связаться с ТП** opens [support](https://t.me/Akend0), both in a new tab.
 - **How it works** opens the student guide. No sign-in is required.
 
 ## Structure

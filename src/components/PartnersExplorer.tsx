@@ -21,6 +21,7 @@ export function PartnersExplorer() {
   const [activeCampus, setActiveCampus] = useState<Campus>(MAIN_CAMPUS);
   const [campusFocusVersion, setCampusFocusVersion] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [dialog, setDialog] = useState<"guide" | "details" | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const visiblePartners = useMemo(() => filterPartners(partners, category, search), [category, search]);
@@ -28,7 +29,7 @@ export function PartnersExplorer() {
   const selectPartner = useCallback((partner: Partner) => { setSelectedId(partner.id); setSelectionVersion((value) => value + 1); setExpanded(false); }, []);
   const selectCampus = useCallback((campus: Campus) => { setActiveCampus(campus); setCampusFocusVersion((value) => value + 1); setSelectedId(null); setExpanded(false); }, []);
   const clearFilters = () => { setCategory("all"); setSearch(""); setSelectedId(null); };
-  const focusSearch = useCallback(() => { setExpanded(true); searchRef.current?.focus(); }, []);
+  const focusSearch = useCallback(() => { setExpanded(true); setSidebarCollapsed(false); requestAnimationFrame(() => searchRef.current?.focus()); }, []);
 
   useEffect(() => {
     function handleKey(event: KeyboardEvent) {
@@ -40,10 +41,10 @@ export function PartnersExplorer() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [focusSearch]);
 
-  return <main className={`explorer ${selectedPartner ? "has-selection" : ""}`}>
-    <Header onSearch={focusSearch} onGuide={() => setDialog("guide")} onExplore={() => { setExpanded(true); searchRef.current?.focus(); }} />
-    <PartnersMap partners={visiblePartners} selectedPartner={selectedPartner} selectionVersion={selectionVersion} onSelect={selectPartner} onReset={() => setSelectedId(null)} activeCampus={activeCampus} campusFocusVersion={campusFocusVersion} onCampusSelect={selectCampus} />
-    <Sidebar partners={visiblePartners} total={partners.length} category={category} search={search} selectedId={selectedPartner?.id} expanded={expanded} searchRef={searchRef} onExpand={() => setExpanded((value) => !value)} onSearch={(value) => { setSearch(value); setSelectedId(null); setExpanded(true); }} onCategory={(value) => { setCategory(value); setSelectedId(null); }} onSelect={selectPartner} onClear={clearFilters} onGuide={() => setDialog("guide")} />
+  return <main className={`explorer ${selectedPartner ? "has-selection" : ""} ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
+    <Header onGuide={() => setDialog("guide")} onExplore={focusSearch} />
+    <PartnersMap sidebarCollapsed={sidebarCollapsed} partners={visiblePartners} selectedPartner={selectedPartner} selectionVersion={selectionVersion} onSelect={selectPartner} onReset={() => setSelectedId(null)} activeCampus={activeCampus} campusFocusVersion={campusFocusVersion} onCampusSelect={selectCampus} />
+    <Sidebar collapsed={sidebarCollapsed} onCollapse={() => setSidebarCollapsed((value) => !value)} partners={visiblePartners} category={category} search={search} selectedId={selectedPartner?.id} expanded={expanded} searchRef={searchRef} onExpand={() => setExpanded((value) => !value)} onSearch={(value) => { setSearch(value); setSelectedId(null); setExpanded(true); }} onCategory={(value) => { setCategory(value); setSelectedId(null); }} onSelect={selectPartner} onClear={clearFilters} />
     {selectedPartner && <PartnerCard key={selectedPartner.id} partner={selectedPartner} campus={activeCampus} onClose={() => setSelectedId(null)} onDetails={() => setDialog("details")} />}
     {dialog === "guide" && <StudentGuide onClose={() => setDialog(null)} />}
     {dialog === "details" && selectedPartner && <OfferDetails partner={selectedPartner} onClose={() => setDialog(null)} />}

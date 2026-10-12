@@ -1,10 +1,15 @@
-import { ArrowUpRight, CircleHelp, MapPin, Search } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Brand } from "./Brand";
 
-interface HeaderProps { onSearch: () => void; onGuide: () => void; onExplore: () => void }
+interface HeaderProps { onGuide: () => void; onExplore: () => void }
 
-export function Header({ onSearch, onGuide, onExplore }: HeaderProps) {
+const TELEGRAM_URL = "https://t.me/aitu_digital_committee";
+const SUPPORT_TELEGRAM_URL = "https://t.me/Akend0";
+
+
+export function Header({ onGuide, onExplore }: HeaderProps) {
   return <header className="app-header">
     <Link href="/" className="brand-link" aria-label="AITU Partners home"><Brand /></Link>
     <nav aria-label="Main navigation" className="header-nav">
@@ -14,8 +19,10 @@ export function Header({ onSearch, onGuide, onExplore }: HeaderProps) {
     <div className="header-actions">
       <span className="city-indicator"><span className="status-dot" />Astana, KZ</span>
       <span className="header-divider" />
-      <button className="icon-button" onClick={onSearch} aria-label="Search partners" title="Search partners"><Search size={19} /></button>
-      <button className="student-guide" onClick={onGuide} aria-label="Open student guide" title="Student guide"><CircleHelp size={18} /></button>
+      <a className="committee-link" href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Digital Committee — Telegram" title="Digital Committee — Telegram">
+        <span className="committee-logo-viewport"><Image src="/branding/digital-committee-wordmark.png" width={1280} height={1280} sizes="112px" alt="" loading="eager" /></span>
+      </a>
+      <a className="support-link" href={SUPPORT_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" lang="ru">Связаться с ТП</a>
     </div>
   </header>;
 }
