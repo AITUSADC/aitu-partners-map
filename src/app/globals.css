@@ -44,8 +44,12 @@ a { color: inherit; text-decoration: none; }
 .header-divider { height: 22px; width: 1px; background: var(--border); }
 .icon-button { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; flex-shrink: 0; border: 0; border-radius: 8px; background: transparent; color: #88a0b4; }
 .icon-button:hover { background: #a0d9ff0c; color: #e0f8ff; }
-.student-guide { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid #284356; border-radius: 50%; background: #112232; color: #a2c4d5; }
-.student-guide:hover { border-color: var(--cyan); color: var(--cyan); }
+.committee-link { display: inline-flex; align-items: center; justify-content: center; width: 96px; height: 40px; flex-shrink: 0; border: 1px solid #284356; border-radius: 8px; background: transparent; transition: background 180ms, border-color 180ms; }
+.committee-link:hover { background: #00d9ff0d; border-color: var(--cyan); }
+.committee-logo-viewport { position: relative; display: block; width: 82px; height: 24px; overflow: hidden; border-radius: 3px; }
+.committee-link img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.3); }
+.support-link { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 8px 12px; border: 1px solid #284356; border-radius: 8px; color: #c6deee; font-size: 11px; text-align: center; transition: background 180ms, border-color 180ms; }
+.support-link:hover { background: #00d9ff0d; border-color: var(--cyan); }
 .glass-panel { background: rgba(7, 19, 34, .92); border: 1px solid rgba(104, 171, 210, .17); backdrop-filter: blur(28px); box-shadow: 0 16px 60px #0004, inset 0 1px #b8deff03; }
 .sidebar { position: absolute; z-index: 20; left: 24px; top: 109px; bottom: 24px; width: 338px; display: flex; flex-direction: column; border-radius: 19px; overflow: hidden; }
 .sidebar-intro { padding: 27px 23px 20px; }
@@ -268,7 +272,7 @@ a { color: inherit; text-decoration: none; }
   .brand-wordmark small { font-size: 7px; }
   .header-nav, .header-divider, .city-indicator { display: none; }
   .header-actions { gap: 9px; }
-  .student-guide { width: 30px; height: 30px; }
+  .support-link { width: 72px; padding: 6px; font-size: 10px; line-height: 1.4; }
   .map-vignette { inset: 69px 0 0; background: linear-gradient(0deg, #030b17, transparent 50%, #030b1733); }
   .map-location-label { top: 90px; left: 21px; }
   .map-location-label > div { margin: 9px 0 6px; font-size: 24px; }
@@ -350,8 +354,21 @@ a { color: inherit; text-decoration: none; }
   .mapboxgl-ctrl-bottom-right { bottom: 233px; }
   .has-selection .mapboxgl-ctrl-bottom-right { bottom: 342px; }
 }
+@media (max-width: 480px) {
+  .app-header { padding: 0 12px; }
+  .brand { gap: 6px; }
+  .brand-wordmark strong { font-size: 13px; }
+  .brand-wordmark strong > span { font-size: 11px; }
+  .header-actions { gap: 6px; }
+  .support-link { width: 64px; }
+}
 @media (max-width: 370px) {
+  .app-header { padding: 0 10px; }
+  .brand { gap: 6px; }
+  .brand-wordmark strong { font-size: 13px; }
+  .brand-wordmark strong > span { font-size: 11px; }
   .header-actions { gap: 2px; }
+  .support-link { width: 62px; }
   .card-identity { gap: 8px; }
   .card-identity h2 { font-size: 14px; }
   .card-identity .category-icon { width: 33px; }

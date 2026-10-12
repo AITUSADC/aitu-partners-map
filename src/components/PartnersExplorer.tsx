@@ -41,7 +41,7 @@ export function PartnersExplorer() {
   }, [focusSearch]);
 
   return <main className={`explorer ${selectedPartner ? "has-selection" : ""}`}>
-    <Header onSearch={focusSearch} onGuide={() => setDialog("guide")} onExplore={() => { setExpanded(true); searchRef.current?.focus(); }} />
+    <Header onGuide={() => setDialog("guide")} onExplore={() => { setExpanded(true); searchRef.current?.focus(); }} />
     <PartnersMap partners={visiblePartners} selectedPartner={selectedPartner} selectionVersion={selectionVersion} onSelect={selectPartner} onReset={() => setSelectedId(null)} activeCampus={activeCampus} campusFocusVersion={campusFocusVersion} onCampusSelect={selectCampus} />
     <Sidebar partners={visiblePartners} total={partners.length} category={category} search={search} selectedId={selectedPartner?.id} expanded={expanded} searchRef={searchRef} onExpand={() => setExpanded((value) => !value)} onSearch={(value) => { setSearch(value); setSelectedId(null); setExpanded(true); }} onCategory={(value) => { setCategory(value); setSelectedId(null); }} onSelect={selectPartner} onClear={clearFilters} onGuide={() => setDialog("guide")} />
     {selectedPartner && <PartnerCard key={selectedPartner.id} partner={selectedPartner} campus={activeCampus} onClose={() => setSelectedId(null)} onDetails={() => setDialog("details")} />}
