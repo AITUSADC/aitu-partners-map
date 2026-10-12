@@ -21,17 +21,18 @@ const emptyConnection: FeatureCollection<LineString> = { type: "FeatureCollectio
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function mapPadding(selected = false) {
-  if (window.innerWidth < 1024) return { top: 110, right: 35, bottom: Math.min(selected ? 360 : 240, window.innerHeight * 0.47), left: 35 };
-  return { top: 100, right: selected && window.innerWidth > 1100 ? 380 : 65, bottom: 90, left: 390 };
+  if (window.innerWidth < 1024) return { top: 110, right: 35, bottom: Math.min(selected ? 360 : 100, window.innerHeight * 0.47), left: 35 };
+  return { top: 100, right: selected && window.innerWidth > 1100 ? 380 : 65, bottom: 90, left: document.querySelector(".explorer.sidebar-collapsed") ? 80 : 390 };
 }
 
 interface PartnersMapProps {
+  sidebarCollapsed: boolean;
   partners: Partner[]; selectedPartner: Partner | null; selectionVersion: number;
   onSelect: (partner: Partner) => void; onReset: () => void;
   activeCampus: Campus; campusFocusVersion: number; onCampusSelect: (campus: Campus) => void;
 }
 
-export function PartnersMap({ partners, selectedPartner, selectionVersion, onSelect, onReset, activeCampus, campusFocusVersion, onCampusSelect }: PartnersMapProps) {
+export function PartnersMap({ sidebarCollapsed, partners, selectedPartner, selectionVersion, onSelect, onReset, activeCampus, campusFocusVersion, onCampusSelect }: PartnersMapProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapboxMap | null>(null);
   const mapboxRef = useRef<typeof import("mapbox-gl").default | null>(null);
@@ -42,6 +43,10 @@ export function PartnersMap({ partners, selectedPartner, selectionVersion, onSel
   const [retry, setRetry] = useState(0);
   const [campusElements, setCampusElements] = useState<{ campus: Campus; element: HTMLDivElement }[]>([]);
   const preview = !token || !!error;
+
+  useEffect(() => {
+    if (ready && mapRef.current) mapRef.current.setPadding(mapPadding(!!selectedPartner));
+  }, [sidebarCollapsed, ready, selectedPartner]);
 
   useEffect(() => {
     if (!container.current || !token) return;
