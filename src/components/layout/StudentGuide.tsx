@@ -10,7 +10,7 @@ export function StudentGuide({ onClose }: { onClose: () => void }) {
       <li><span><Sparkles size={21} /></span><div><h3>02. Explore the offer</h3><p>Open the offer details to see the benefit, location, and conditions.</p></div></li>
       <li><span><GraduationCap size={21} /></span><div><h3>03. Bring your student ID</h3><p>In a live network, you would show your AITU student ID before paying.</p></div></li>
     </ol>
-    <div className="demo-notice">You’re exploring an MVP with 12 fictional partners. All offers and locations are sample data, not redeemable benefits.</div>
+    {/* <div className="demo-notice">You’re exploring an MVP with 12 fictional partners. All offers and locations are sample data, not redeemable benefits.</div> */}
     <button className="primary-button" onClick={onClose}>Let’s explore</button>
   </Modal>;
 }
