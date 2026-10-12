@@ -9,7 +9,7 @@ export function PartnerMarker({ partner, selected, onSelect, showLabel = false }
 }
 
 export function CampusMarker({ campus, selected, onSelect }: { campus: Campus; selected: boolean; onSelect: (campus: Campus) => void }) {
-  return <button type="button" className={`campus-marker campus-${campus.id} ${selected ? "is-active" : ""}`} aria-label={`AITU: ${campus.name}`} aria-pressed={selected} onClick={() => onSelect(campus)} title={`${campus.description} ${campus.locationNote}`} lang="ru"><span className="campus-orbit" /><span className="campus-core"><GraduationCap size={20} strokeWidth={1.6} /></span><span className="campus-label">AITU · {campus.shortName}{campus.isMain && <small>Главный корпус</small>}</span></button>;
+  return <button type="button" className={`campus-marker campus-${campus.id} ${selected ? "is-active" : ""}`} aria-label={`AITU: ${campus.name}`} aria-pressed={selected} onClick={() => onSelect(campus)} title={`${campus.description} ${campus.locationNote}`} lang="ru"><span className="campus-orbit" /><span className="campus-core"><GraduationCap size={20} strokeWidth={1.6} /></span><span className="campus-label">AITU · {campus.shortName}</span></button>;
 }
 
 // Mapbox owns the positioning wrapper; CSS transforms only affect its children.

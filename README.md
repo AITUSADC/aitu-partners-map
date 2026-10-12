@@ -48,6 +48,7 @@ Without a token, the interface displays **“Mapbox token required”** and a cl
 - Press `/` to focus partner search.
 - The Digital Committee logo opens [the committee's Telegram](https://t.me/aitu_digital_committee), and **Связаться с ТП** opens [support](https://t.me/Akend0), both in a new tab.
 - **How it works** opens the student guide. No sign-in is required.
+- On mobile, the Digital Committee logo stays in the header beside the menu button. The menu contains **Explore partners**, **How it works**, and **Связаться с ТП**. Explore opens the discovery panel and focuses search.
 
 ## Structure
 
