@@ -13,8 +13,10 @@ import { PartnersMap } from "./map/PartnersMap";
 import { PartnerCard } from "./partners/PartnerCard";
 import { OfferDetails } from "./partners/OfferDetails";
 import { MotionPresence } from "./ui/MotionPresence";
+import { useLocalization } from "./Localization";
 
 export function PartnersExplorer() {
+  const { t } = useLocalization();
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -25,7 +27,8 @@ export function PartnersExplorer() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [dialog, setDialog] = useState<"guide" | "details" | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const visiblePartners = useMemo(() => filterPartners(partners, category, search), [category, search]);
+  const localizedPartners = useMemo(() => partners.map((partner) => ({ ...partner, offerLabel: t(partner.offerLabel), description: t(partner.description), terms: t(partner.terms), location: { ...partner.location, name: t(partner.location.name), address: t(partner.location.address) } })), [t]);
+  const visiblePartners = useMemo(() => filterPartners(localizedPartners, category, search), [localizedPartners, category, search]);
   const selectedPartner = visiblePartners.find((partner) => partner.id === selectedId) ?? null;
   const selectPartner = useCallback((partner: Partner) => { setSelectedId(partner.id); setSelectionVersion((value) => value + 1); setExpanded(false); }, []);
   const selectCampus = useCallback((campus: Campus) => { setActiveCampus(campus); setCampusFocusVersion((value) => value + 1); setSelectedId(null); setExpanded(false); }, []);
@@ -49,6 +52,6 @@ export function PartnersExplorer() {
     <MotionPresence open={!!selectedPartner}>{selectedPartner && <PartnerCard key={selectedPartner.id} partner={selectedPartner} campus={activeCampus} onClose={() => setSelectedId(null)} onDetails={() => setDialog("details")} />}</MotionPresence>
     <MotionPresence open={dialog === "guide"}>{dialog === "guide" && <StudentGuide onClose={() => setDialog(null)} />}</MotionPresence>
     <MotionPresence open={dialog === "details" && !!selectedPartner}>{dialog === "details" && selectedPartner && <OfferDetails partner={selectedPartner} onClose={() => setDialog(null)} />}</MotionPresence>
-    <span className="sr-only" role="status" aria-live="polite">{visiblePartners.length} partners found{category !== "all" ? ` in ${category}` : ""}{search ? ` matching ${search}` : ""}.</span>
+    <span className="sr-only" role="status" aria-live="polite">{t("Partners found")}: {visiblePartners.length}.</span>
   </main>;
 }

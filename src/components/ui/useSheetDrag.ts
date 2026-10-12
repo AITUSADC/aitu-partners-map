@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type PointerEvent, type MouseEvent } from "react";
+import { resistedSheetHeight } from "@/lib/sheet-motion";
 
 const collapsedHeight = 72;
 const expandedHeight = () => Math.min(window.innerHeight * 0.64, 560);
@@ -8,12 +9,13 @@ const expandedHeight = () => Math.min(window.innerHeight * 0.64, 560);
 export function useSheetDrag(expanded: boolean, onExpandedChange: (expanded: boolean) => void) {
   const sheetRef = useRef<HTMLElement>(null);
   const [dragging, setDragging] = useState(false);
+  const [revealing, setRevealing] = useState(false);
   const frame = useRef<number | null>(null);
   const suppressClick = useRef(false);
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gesture = useRef<{
     pointerId: number; x: number; y: number; startHeight: number; height: number;
-    expanded: boolean; moved: boolean; owner: HTMLElement;
+    expanded: boolean; moved: boolean; revealing: boolean; owner: HTMLElement;
     samples: { y: number; time: number }[];
   } | null>(null);
 
@@ -26,6 +28,7 @@ export function useSheetDrag(expanded: boolean, onExpandedChange: (expanded: boo
       frame.current = null;
       sheetRef.current?.style.removeProperty("height");
       setDragging(false);
+      setRevealing(false);
     }
     window.addEventListener("resize", cancelForResize);
     return () => {
@@ -44,9 +47,10 @@ export function useSheetDrag(expanded: boolean, onExpandedChange: (expanded: boo
     gesture.current = {
       pointerId: event.pointerId, x: event.clientX, y: event.clientY,
       startHeight: sheet.getBoundingClientRect().height, height: sheet.getBoundingClientRect().height,
-      expanded, moved: false, owner: event.currentTarget,
+      expanded, moved: false, revealing: expanded, owner: event.currentTarget,
       samples: [{ y: event.clientY, time: event.timeStamp }],
     };
+    setRevealing(expanded);
     event.currentTarget.setPointerCapture(event.pointerId);
   }
 
@@ -66,7 +70,9 @@ export function useSheetDrag(expanded: boolean, onExpandedChange: (expanded: boo
       setDragging(true);
     }
     event.preventDefault();
-    current.height = Math.max(collapsedHeight, Math.min(expandedHeight(), current.startHeight + delta));
+    current.height = resistedSheetHeight(current.startHeight + delta, collapsedHeight, expandedHeight());
+    const reveal = current.expanded || current.height > collapsedHeight;
+    if (reveal !== current.revealing) { current.revealing = reveal; setRevealing(reveal); }
     current.samples.push({ y: event.clientY, time: event.timeStamp });
     current.samples = current.samples.filter((sample) => event.timeStamp - sample.time <= 100);
     if (frame.current === null) frame.current = requestAnimationFrame(() => {
@@ -98,13 +104,15 @@ export function useSheetDrag(expanded: boolean, onExpandedChange: (expanded: boo
     const travel = current.y - event.clientY;
     const threshold = (expandedHeight() - collapsedHeight) * 0.3;
     let target = current.expanded;
-    if (!cancelled) {
+    const outwardPull = current.expanded ? travel >= 0 : travel <= 0;
+    if (!cancelled && !outwardPull) {
       if (Math.abs(travel) >= 12 && Math.abs(velocity) >= 0.45) target = velocity > 0;
       else if (!current.expanded && travel >= threshold) target = true;
       else if (current.expanded && travel <= -threshold) target = false;
     }
     suppressGestureClick();
     setDragging(false);
+    setRevealing(false);
     onExpandedChange(target);
     frame.current = requestAnimationFrame(() => {
       frame.current = null;
@@ -131,7 +139,7 @@ export function useSheetDrag(expanded: boolean, onExpandedChange: (expanded: boo
   }
 
   return {
-    sheetRef, dragging, onClickCapture, onPointerDownCapture,
+    sheetRef, dragging, revealing, onClickCapture, onPointerDownCapture,
     dragHandlers: { onPointerDown, onPointerMove, onPointerUp: (event: PointerEvent<HTMLElement>) => finish(event), onPointerCancel: (event: PointerEvent<HTMLElement>) => finish(event, true), onLostPointerCapture: (event: PointerEvent<HTMLElement>) => finish(event, true) },
   };
 }

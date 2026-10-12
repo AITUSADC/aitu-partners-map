@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocalization } from "@/components/Localization";
+
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { GeoJSONSource, Map as MapboxMap, Marker } from "mapbox-gl";
@@ -32,6 +34,7 @@ interface PartnersMapProps {
 }
 
 export function PartnersMap({ sidebarCollapsed, partners, selectedPartner, selectionVersion, onSelect, onReset, activeCampus, campusFocusVersion, onCampusSelect }: PartnersMapProps) {
+  const { t, locale } = useLocalization();
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapboxMap | null>(null);
   const mapboxRef = useRef<typeof import("mapbox-gl").default | null>(null);
@@ -116,13 +119,23 @@ export function PartnersMap({ sidebarCollapsed, partners, selectedPartner, selec
     const ids = new Set(partners.map((partner) => partner.id));
     markers.forEach(({ marker }, id) => { if (!ids.has(id)) { marker.remove(); markers.delete(id); } });
     for (const partner of partners) {
-      if (markers.has(partner.id)) continue;
+      const existing = markers.get(partner.id);
+      if (existing) { existing.button.setAttribute("aria-label", `${partner.name}, ${partner.discount} ${t("student offer")}`); continue; }
       const { element, button } = createPartnerMarker(partner, () => onSelect(partner));
+      button.setAttribute("aria-label", `${partner.name}, ${partner.discount} ${t("student offer")}`);
       const marker = new mapboxgl.Marker({ element }).setLngLat([partner.location.longitude, partner.location.latitude]).addTo(map);
       button.setAttribute("aria-pressed", "false");
       markers.set(partner.id, { marker, button });
     }
-  }, [partners, ready, onSelect]);
+  }, [partners, ready, onSelect, t]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!ready || !map) return;
+    for (const id of ["district-labels", "road-labels"]) {
+      map.setLayoutProperty(id, "text-field", ["coalesce", ["get", `name_${locale}`], ["get", "name"], ["get", "name_en"]]);
+    }
+  }, [locale, ready]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -154,13 +167,13 @@ export function PartnersMap({ sidebarCollapsed, partners, selectedPartner, selec
     onCampusSelect(activeCampus);
   }
 
-  return <section className={`map-surface${" map-local-preview" }`} aria-label="Astana partner map">
+  return <section className={`map-surface${" map-local-preview" }`} aria-label={t("Astana partner map")}>
     <div ref={container} className={`mapbox-container ${preview ? "map-hidden" : ""}`} />
     {preview && <PreviewMap ref={previewRef} partners={partners} selectedId={selectedPartner?.id} onSelect={onSelect} activeCampus={activeCampus} onCampusSelect={onCampusSelect} />}
-    {!preview && !ready && <div className="map-loading"><span className="loading-ring" /><strong>Connecting to Astana</strong><span>Your next favorite spot is on the map.</span></div>}
+    {!preview && !ready && <div className="map-loading"><span className="loading-ring" /><strong>{t("Connecting to Astana")}</strong><span>{t("Your next favorite spot is on the map.")}</span></div>}
     {!preview && campusElements.map(({ campus, element }) => createPortal(<CampusMarker campus={campus} selected={activeCampus.id === campus.id} onSelect={onCampusSelect} />, element, campus.id))}
     <div className="map-vignette" />
-    <div className="map-location-label"><span className="eyebrow"><span className="status-dot" />AITU PARTNER NETWORK</span></div>
+    <div className="map-location-label"><span className="eyebrow"><span className="status-dot" />{t("AITU PARTNER NETWORK")}</span></div>
     {preview && <MapNotice error={error} onRetry={token ? () => { setReady(false); setError(undefined); setCampusElements([]); setRetry((value) => value + 1); } : undefined} />}
     <CampusSelector campus={activeCampus} onSelect={onCampusSelect} />
     <MapControls preview={preview} onZoomIn={() => preview ? previewRef.current?.zoom(0.2) : mapRef.current?.zoomIn({ duration: reducedMotion() ? 0 : 250 })} onZoomOut={() => preview ? previewRef.current?.zoom(-0.2) : mapRef.current?.zoomOut({ duration: reducedMotion() ? 0 : 250 })} onReset={resetMap} onCampus={goToCampus} />
