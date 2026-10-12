@@ -156,7 +156,7 @@ export function PartnersMap({ partners, selectedPartner, selectionVersion, onSel
     {!preview && !ready && <div className="map-loading"><span className="loading-ring" /><strong>Connecting to Astana</strong><span>Your next favorite spot is on the map.</span></div>}
     {!preview && campusElements.map(({ campus, element }) => createPortal(<CampusMarker campus={campus} selected={activeCampus.id === campus.id} onSelect={onCampusSelect} />, element, campus.id))}
     <div className="map-vignette" />
-    <div className="map-location-label"><span className="eyebrow"><span className="status-dot" />AITU PARTNER NETWORK</span><div>Astana<span> / KAZAKHSTAN</span></div><p>51.128° N <span>71.430° E</span></p></div>
+    <div className="map-location-label"><span className="eyebrow"><span className="status-dot" />AITU PARTNER NETWORK</span></div>
     {preview && <MapNotice error={error} onRetry={token ? () => { setReady(false); setError(undefined); setCampusElements([]); setRetry((value) => value + 1); } : undefined} />}
     <CampusSelector campus={activeCampus} onSelect={onCampusSelect} />
     <div className="map-compass" aria-hidden="true"><span>N</span><Navigation2 size={21} strokeWidth={1.3} /><i /></div>
