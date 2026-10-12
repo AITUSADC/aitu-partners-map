@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Brand } from "./Brand";
+import { MotionPresence } from "../ui/MotionPresence";
 
 interface HeaderProps { onGuide: () => void; onExplore: () => void }
 
@@ -45,11 +46,11 @@ export function Header({ onGuide, onExplore }: HeaderProps) {
       <a className="support-link" href={SUPPORT_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" lang="ru">Связаться с ТП</a>
       <button ref={menuTrigger} type="button" className="mobile-menu-toggle" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls={menuId} onClick={() => setMenuOpen((value) => !value)}>{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
     </div>
-    {menuOpen && <nav id={menuId} className="mobile-nav-dropdown" aria-label="Mobile navigation">
+    <MotionPresence open={menuOpen}><nav id={menuId} className="mobile-nav-dropdown" aria-label="Mobile navigation">
       <button type="button" className="mobile-nav-item active" onClick={() => { setMenuOpen(false); onExplore(); }}><MapPin size={18} /><span>Explore partners</span></button>
       <button type="button" className="mobile-nav-item" onClick={() => { setMenuOpen(false); menuTrigger.current?.focus(); onGuide(); }}><CircleHelp size={18} /><span>How it works</span></button>
       <div className="mobile-nav-divider" />
       <a className="mobile-nav-item" href={SUPPORT_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" lang="ru" onClick={() => setMenuOpen(false)}><MessageCircle size={18} /><span>Связаться с ТП</span><ArrowUpRight size={14} /></a>
-    </nav>}
+    </nav></MotionPresence>
   </header>;
 }

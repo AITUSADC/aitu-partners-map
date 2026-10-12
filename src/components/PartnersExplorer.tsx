@@ -12,6 +12,7 @@ import { StudentGuide } from "./layout/StudentGuide";
 import { PartnersMap } from "./map/PartnersMap";
 import { PartnerCard } from "./partners/PartnerCard";
 import { OfferDetails } from "./partners/OfferDetails";
+import { MotionPresence } from "./ui/MotionPresence";
 
 export function PartnersExplorer() {
   const [category, setCategory] = useState<CategoryFilter>("all");
@@ -45,9 +46,9 @@ export function PartnersExplorer() {
     <Header onGuide={() => setDialog("guide")} onExplore={focusSearch} />
     <PartnersMap sidebarCollapsed={sidebarCollapsed} partners={visiblePartners} selectedPartner={selectedPartner} selectionVersion={selectionVersion} onSelect={selectPartner} onReset={() => setSelectedId(null)} activeCampus={activeCampus} campusFocusVersion={campusFocusVersion} onCampusSelect={selectCampus} />
     <Sidebar collapsed={sidebarCollapsed} onCollapse={() => setSidebarCollapsed((value) => !value)} partners={visiblePartners} category={category} search={search} selectedId={selectedPartner?.id} expanded={expanded} searchRef={searchRef} onExpand={() => setExpanded((value) => !value)} onSearch={(value) => { setSearch(value); setSelectedId(null); setExpanded(true); }} onCategory={(value) => { setCategory(value); setSelectedId(null); }} onSelect={selectPartner} onClear={clearFilters} />
-    {selectedPartner && <PartnerCard key={selectedPartner.id} partner={selectedPartner} campus={activeCampus} onClose={() => setSelectedId(null)} onDetails={() => setDialog("details")} />}
-    {dialog === "guide" && <StudentGuide onClose={() => setDialog(null)} />}
-    {dialog === "details" && selectedPartner && <OfferDetails partner={selectedPartner} onClose={() => setDialog(null)} />}
+    <MotionPresence open={!!selectedPartner}>{selectedPartner && <PartnerCard key={selectedPartner.id} partner={selectedPartner} campus={activeCampus} onClose={() => setSelectedId(null)} onDetails={() => setDialog("details")} />}</MotionPresence>
+    <MotionPresence open={dialog === "guide"}>{dialog === "guide" && <StudentGuide onClose={() => setDialog(null)} />}</MotionPresence>
+    <MotionPresence open={dialog === "details" && !!selectedPartner}>{dialog === "details" && selectedPartner && <OfferDetails partner={selectedPartner} onClose={() => setDialog(null)} />}</MotionPresence>
     <span className="sr-only" role="status" aria-live="polite">{visiblePartners.length} partners found{category !== "all" ? ` in ${category}` : ""}{search ? ` matching ${search}` : ""}.</span>
   </main>;
 }
