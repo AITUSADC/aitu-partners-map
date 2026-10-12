@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Compass, GraduationCap, Layers2, Navigation2 } from "lucide-react";
+import { Compass, GraduationCap, Layers2 } from "lucide-react";
 import type { GeoJSONSource, Map as MapboxMap, Marker } from "mapbox-gl";
 import type { FeatureCollection, LineString } from "geojson";
 import type { Partner } from "@/types/partner";
@@ -150,7 +150,7 @@ export function PartnersMap({ partners, selectedPartner, selectionVersion, onSel
     onCampusSelect(activeCampus);
   }
 
-  return <section className="map-surface" aria-label="Astana partner map">
+  return <section className={`map-surface${" map-local-preview" }`} aria-label="Astana partner map">
     <div ref={container} className={`mapbox-container ${preview ? "map-hidden" : ""}`} />
     {preview && <PreviewMap ref={previewRef} partners={partners} selectedId={selectedPartner?.id} onSelect={onSelect} activeCampus={activeCampus} onCampusSelect={onCampusSelect} />}
     {!preview && !ready && <div className="map-loading"><span className="loading-ring" /><strong>Connecting to Astana</strong><span>Your next favorite spot is on the map.</span></div>}
@@ -159,8 +159,7 @@ export function PartnersMap({ partners, selectedPartner, selectionVersion, onSel
     <div className="map-location-label"><span className="eyebrow"><span className="status-dot" />AITU PARTNER NETWORK</span></div>
     {preview && <MapNotice error={error} onRetry={token ? () => { setReady(false); setError(undefined); setCampusElements([]); setRetry((value) => value + 1); } : undefined} />}
     <CampusSelector campus={activeCampus} onSelect={onCampusSelect} />
-    <div className="map-compass" aria-hidden="true"><span>N</span><Navigation2 size={21} strokeWidth={1.3} /><i /></div>
-    <div className="network-caption"><span className="network-caption-icon"><GraduationCap size={21} strokeWidth={1.5} /></span><div><strong>Your city. Your benefits.</strong><p>A whole network, connected to you.</p></div><span className="network-caption-divider" /><span className="network-caption-count">{partners.length.toString().padStart(2, "0")}<small>PLACES TO EXPLORE</small></span></div>
+    <div className="network-caption"><span className="network-caption-icon"><GraduationCap size={21} strokeWidth={1.5} /></span><div><strong>Your city. Your benefits.</strong><p>A whole network, connected to you.</p></div></div>
     <MapControls preview={preview} onZoomIn={() => preview ? previewRef.current?.zoom(0.2) : mapRef.current?.zoomIn({ duration: reducedMotion() ? 0 : 250 })} onZoomOut={() => preview ? previewRef.current?.zoom(-0.2) : mapRef.current?.zoomOut({ duration: reducedMotion() ? 0 : 250 })} onReset={resetMap} onCampus={goToCampus} />
     <div className="map-bottomline"><span><Layers2 size={12} />{preview ? "SCHEMATIC PREVIEW" : "AITU MIDNIGHT MAP"}</span><span className="map-hint"><Compass size={12} />Drag to explore<span className="hint-dot">·</span>{preview ? "Use + / − to zoom" : "Scroll to zoom"}</span><span className="sample-map-label">SAMPLE PARTNERS</span></div>
   </section>;
