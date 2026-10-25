@@ -60,6 +60,7 @@ export const translations: Record<string, { ru: string; kk: string }> = {
   "straight-line estimate": { ru: "примерно по прямой", kk: "түзу сызық бойымен шамамен" },
   "A little extra, just for AITU students.": { ru: "Больше возможностей для студентов AITU.", kk: "AITU студенттеріне қосымша мүмкіндіктер." },
   "View offer details": { ru: "Подробнее о предложении", kk: "Ұсыныс туралы толығырақ" },
+  "Offer details": { ru: "Об условиях", kk: "Ұсыныс шарттары" },
   "Sample offer · for demonstration only": { ru: "Пример предложения · только для демонстрации", kk: "Ұсыныс үлгісі · тек таныстыру үшін" },
   "Close dialog": { ru: "Закрыть окно", kk: "Терезені жабу" },
   "Student life, with a little extra.": { ru: "Больше возможностей студентам.", kk: "Студенттерге көбірек мүмкіндік." },

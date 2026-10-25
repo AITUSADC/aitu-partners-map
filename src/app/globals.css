@@ -192,30 +192,23 @@ a { color: inherit; text-decoration: none; }
 .campus-option-copy > span { color: #809bad; font-size: 9px; line-height: 1.4; }
 
 .partner-card { position: absolute; right: 86px; top: 228px; width: 302px; max-height: calc(100dvh - 255px); overflow-y: auto; z-index: 15; border-radius: 18px; padding: 12px 19px 14px; animation: panel-in 230ms ease-out; }
-.card-topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-.card-topline .eyebrow { font-size: 7px; letter-spacing: 1.5px; }
-.card-topline .status-dot { width: 4px; height: 4px; }
-.card-topline .icon-button { width: 25px; height: 25px; margin-right: -5px; }
-.card-identity { display: flex; gap: 12px; align-items: center; margin-bottom: 21px; }
+.card-close { position: absolute; right: 8px; top: 8px; width: 36px; height: 36px; }
+.card-identity { display: flex; gap: 12px; align-items: center; margin-bottom: 21px; padding-right: 30px; }
 .category-icon.large { width: 47px; height: 48px; border-radius: 12px; }
 .card-identity h2 { font-size: 19px; font-weight: 600; margin: 0 0 7px; letter-spacing: -.6px; }
 .card-identity > div > span { color: #7a94a8; font-size: 9px; }
 .offer-display { overflow: hidden; position: relative; border: 1px solid #00d9ff21; background: linear-gradient(105deg, #0c2c3a, #0b202e); border-radius: 11px; padding: 18px 18px 16px; margin-bottom: 20px; }
 .offer-display > div { font-size: 48px; letter-spacing: -2px; line-height: 1.1; font-weight: 500; color: #91efff; display: flex; align-items: center; gap: 16px; position: relative; z-index: 1; }
-.offer-display > div > span { font-size: 7px; letter-spacing: 1.3px; line-height: 1.7; color: #6babb9; }
 .offer-display p { color: #8cc0cc; font-size: 10px; margin: 8px 0 0; position: relative; z-index: 1; }
 .offer-orbit { position: absolute; right: -52px; bottom: -70px; width: 180px; height: 180px; border: 1px solid #00d9ff10; border-radius: 50%; box-shadow: 0 0 0 17px #00d9ff03, 0 0 0 35px #00d9ff02; }
 .card-location { display: flex; gap: 10px; align-items: flex-start; color: #6ba7bb; }
 .card-location > svg { margin-top: 1px; flex-shrink: 0; }
 .card-location strong { display: block; color: #c2d6e4; font-weight: 500; font-size: 11px; margin-bottom: 5px; }
 .card-location span { display: block; color: #738da1; font-size: 9px; }
-.card-distance { display: flex; gap: 5px; align-items: center; color: #718ca2; font-size: 8px; margin: 13px 0 18px; }
-.card-distance > span { margin-left: auto; font-size: 7px; color: #52718a; }
-.card-student-note { border-top: 1px solid #20364a; padding: 13px 0; display: flex; align-items: center; gap: 8px; color: #829daf; font-size: 9px; }
-.card-student-note svg { color: #76aaba; }
+.card-distance { display: flex; gap: 5px; align-items: center; color: #8ba4b8; font-size: 10px; margin: 13px 0 18px; }
 .primary-button { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1px solid #56e9ff80; border-radius: 8px; background: #1ad4ee; color: #06222e; font-size: 11px; font-weight: 700; }
 .primary-button:hover { background: #6ce8f7; box-shadow: 0 4px 20px #00d9ff18; }
-.sample-caption { color: #59778c; font-size: 8px; text-align: center; margin: 11px 0 0; }
+.sample-caption { color: #8ba4b8; font-size: 10px; text-align: center; margin: 11px 0 0; }
 .detail-dialog { color: var(--text); padding: 34px; width: min(480px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); margin: auto; border: 1px solid #315268; border-radius: 20px; background: #0a1829; box-shadow: 0 24px 100px #0009; overflow-y: auto; animation: panel-in 180ms ease-out; }
 .detail-dialog::backdrop { background: #010813bd; backdrop-filter: blur(9px); }
 .detail-dialog h2 { font-size: 26px; line-height: 1.35; margin: 0 22px 10px 0; font-weight: 500; letter-spacing: -.8px; }
@@ -267,7 +260,6 @@ a { color: inherit; text-decoration: none; }
   .category-filters { padding-top: 13px; padding-bottom: 14px; }
   .partner-list-item { min-height: 66px; }
   .partner-card { top: 205px; }
-  .card-topline { margin-bottom: 8px; }
   .card-identity { margin-bottom: 16px; }
   .offer-display { padding-top: 12px; padding-bottom: 12px; margin-bottom: 16px; }
 }
@@ -364,23 +356,17 @@ a { color: inherit; text-decoration: none; }
   .partner-list-copy > span { font-size: 10px; }
   .partner-scroll { padding: 0 9px 12px; }
   .partner-card { left: 8px; right: 8px; top: auto; bottom: 8px; width: auto; max-width: 440px; max-height: calc(100dvh - 88px); margin-inline: auto; z-index: 25; border-radius: 18px; padding: 11px 18px 12px; }
-  .card-topline { margin-bottom: 7px; }
+  .card-close { width: 44px; height: 44px; top: 4px; right: 4px; }
   .card-identity { margin-bottom: 12px; }
   .card-identity h2 { font-size: 18px; }
   .category-icon.large { width: 40px; height: 40px; }
-  .offer-display { position: absolute; right: 18px; top: 50px; padding: 8px 11px; margin: 0; max-width: 126px; min-width: 95px; }
+  .offer-display { padding: 10px 14px; margin-bottom: 14px; }
   .offer-display > div { font-size: 30px; letter-spacing: -1px; }
-  .offer-display > div > span { display: none; }
-  .offer-display > p { font-size: 7px; max-width: 98px; margin-top: 5px; }
-  .card-identity { padding-right: 115px; }
+  .offer-display > p { font-size: 10px; margin-top: 5px; }
   .card-identity h2 { font-size: 16px; }
-  .card-identity > div > span { font-size: 8px; }
-  .card-identity > div > span .item-dot { margin: 0 3px; }
-  .card-location { margin-top: 19px; }
+  .card-identity > div > span { font-size: 10px; }
   .card-distance { margin: 9px 0 11px; }
-  .card-distance > span { margin-left: 4px; }
-  .card-student-note { padding: 10px 0; }
-  .sample-caption { margin-top: 8px; font-size: 7px; }
+  .sample-caption { margin-top: 8px; }
   .has-selection .map-controls { bottom: 365px; }
   .detail-dialog { padding: 27px 22px; max-height: calc(100dvh - 30px); }
   .detail-dialog h2 { font-size: 24px; }
@@ -404,7 +390,6 @@ a { color: inherit; text-decoration: none; }
   .card-identity { gap: 8px; }
   .card-identity h2 { font-size: 14px; }
   .card-identity .category-icon { width: 33px; }
-  .offer-display { max-width: 104px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
