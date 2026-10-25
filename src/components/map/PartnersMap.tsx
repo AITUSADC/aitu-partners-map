@@ -22,7 +22,13 @@ const emptyConnection: FeatureCollection<LineString> = { type: "FeatureCollectio
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function mapPadding(selected = false) {
-  if (window.innerWidth < 1024) return { top: 110, right: 35, bottom: Math.min(selected ? 360 : 100, window.innerHeight * 0.47), left: 35 };
+  if (window.innerWidth < 768) {
+    const top = selected ? 140 : 110;
+    const cardHeight = document.querySelector<HTMLElement>(".partner-card")?.offsetHeight ?? 480;
+    const bottom = selected ? cardHeight + 20 : 100;
+    return { top, right: 35, bottom: Math.max(0, Math.min(bottom, window.innerHeight - top - 40)), left: 35 };
+  }
+  if (window.innerWidth < 1024) return { top: 110, right: 35, bottom: 100, left: 35 };
   return { top: 100, right: selected && window.innerWidth > 1100 ? 380 : 65, bottom: 90, left: document.querySelector(".explorer.sidebar-collapsed") ? 80 : 390 };
 }
 
@@ -40,6 +46,7 @@ export function PartnersMap({ sidebarCollapsed, partners, selectedPartner, selec
   const mapboxRef = useRef<typeof import("mapbox-gl").default | null>(null);
   const markerRefs = useRef(new Map<string, { marker: Marker; button: HTMLButtonElement }>());
   const previewRef = useRef<PreviewMapHandle>(null);
+  const focusedCampusVersion = useRef(0);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string>();
   const [retry, setRetry] = useState(0);
@@ -47,7 +54,14 @@ export function PartnersMap({ sidebarCollapsed, partners, selectedPartner, selec
   const preview = !token || !!error;
 
   useEffect(() => {
-    if (ready && mapRef.current) mapRef.current.setPadding(mapPadding(!!selectedPartner));
+    if (!ready || !mapRef.current) return;
+    const updatePadding = () => mapRef.current?.setPadding(mapPadding(!!selectedPartner));
+    updatePadding();
+    const observer = new ResizeObserver(updatePadding);
+    const card = document.querySelector(".partner-card");
+    if (card) observer.observe(card);
+    window.addEventListener("resize", updatePadding);
+    return () => { observer.disconnect(); window.removeEventListener("resize", updatePadding); };
   }, [sidebarCollapsed, ready, selectedPartner]);
 
   useEffect(() => {
@@ -152,9 +166,14 @@ export function PartnersMap({ sidebarCollapsed, partners, selectedPartner, selec
   }, [selectedPartner, selectionVersion, ready, activeCampus]);
 
   useEffect(() => {
-    if (campusFocusVersion === 0) return;
-    if (preview) previewRef.current?.campus(activeCampus);
-    else if (ready) mapRef.current?.flyTo({ center: [activeCampus.longitude, activeCampus.latitude], zoom: 15, padding: mapPadding(), duration: reducedMotion() ? 0 : 1200 });
+    if (campusFocusVersion === 0 || campusFocusVersion === focusedCampusVersion.current) return;
+    if (preview && previewRef.current) {
+      previewRef.current.campus(activeCampus);
+      focusedCampusVersion.current = campusFocusVersion;
+    } else if (ready && mapRef.current) {
+      mapRef.current.flyTo({ center: [activeCampus.longitude, activeCampus.latitude], zoom: 15, padding: mapPadding(), duration: reducedMotion() ? 0 : 1200 });
+      focusedCampusVersion.current = campusFocusVersion;
+    }
   }, [activeCampus, campusFocusVersion, ready, preview]);
 
   function resetMap() {
