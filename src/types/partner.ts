@@ -15,7 +15,6 @@ export interface Partner {
   discount: string;
   offerLabel: string;
   description: string;
-  terms: string;
   location: {
     name: string;
     address: string;

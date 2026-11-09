@@ -27,7 +27,7 @@ export function PartnersExplorer() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [dialog, setDialog] = useState<"guide" | "details" | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const localizedPartners = useMemo(() => partners.map((partner) => ({ ...partner, offerLabel: t(partner.offerLabel), description: t(partner.description), terms: t(partner.terms), location: { ...partner.location, name: t(partner.location.name), address: t(partner.location.address) } })), [t]);
+  const localizedPartners = useMemo(() => partners.map((partner) => ({ ...partner, offerLabel: t(partner.offerLabel), description: t(partner.description), location: { ...partner.location, name: t(partner.location.name), address: t(partner.location.address) } })), [t]);
   const visiblePartners = useMemo(() => filterPartners(localizedPartners, category, search), [localizedPartners, category, search]);
   const selectedPartner = visiblePartners.find((partner) => partner.id === selectedId) ?? null;
   const selectPartner = useCallback((partner: Partner) => { setSelectedId(partner.id); setSelectionVersion((value) => value + 1); setExpanded(false); }, []);

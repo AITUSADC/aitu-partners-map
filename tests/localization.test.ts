@@ -5,7 +5,7 @@ import { partners } from "../src/data/partners.ts";
 import { campuses } from "../src/data/campuses.ts";
 
 test("partner and campus copy has both Russian and Kazakh translations", () => {
-  const copy = partners.flatMap((partner) => [partner.offerLabel, partner.description, partner.terms, partner.location.address, partner.location.name]);
+  const copy = partners.flatMap((partner) => [partner.offerLabel, partner.description, partner.location.address, partner.location.name]);
   copy.push(...campuses.flatMap((campus) => [campus.name, campus.description, campus.address, campus.locationNote]));
   for (const text of copy) {
     if (text === "MEGA Silk Way") continue;
