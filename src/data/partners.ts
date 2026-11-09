@@ -23,8 +23,8 @@ export const partners: Partner[] = [
     location: {
       name: "Turkistan Street",
       address: "Turkistan Street, 10",
-      latitude: 51.110771,
-      longitude: 71.426198,
+      latitude: 51.111273,
+      longitude: 71.426744,
     },
   },
   {
@@ -38,8 +38,8 @@ export const partners: Partner[] = [
     location: {
       name: "Mangilik El Avenue",
       address: "Mangilik El Avenue, 51/4",
-      latitude: 51.094127,
-      longitude: 71.423054,
+      latitude: 51.094317,
+      longitude: 71.423155,
     },
   },
   {
@@ -53,8 +53,8 @@ export const partners: Partner[] = [
     location: {
       name: "Bukhar Zhyrau Street",
       address: "Bukhar Zhyrau Street, 19",
-      latitude: 51.100507,
-      longitude: 71.42636,
+      latitude: 51.100677,
+      longitude: 71.426497,
     },
   },
   {
@@ -68,8 +68,8 @@ export const partners: Partner[] = [
     location: {
       name: "Alihan Bokeikhan Street",
       address: "Alihan Bokeikhan Street, 6",
-      latitude: 51.116329,
-      longitude: 71.439763,
+      latitude: 51.116909,
+      longitude: 71.438815,
     },
   },
   {
@@ -78,13 +78,13 @@ export const partners: Partner[] = [
     category: "coffee",
     discount: "10%",
     offerLabel: "with student ID",
-    description: "Coffee shop chain. Another mapped branch is at Mangilik El Avenue, 40.",
+    description: "Coffee shop chain. 2GIS lists branches at Mangilik El Avenue, 37 and 40; Turan Avenue, 52/2; Tauelsizdik Avenue, 34/6; and Taha Khusein Street, 1a.",
     terms: "Present your student ID for 10% off.",
     location: {
       name: "Mangilik El Avenue",
       address: "Mangilik El Avenue, 37",
-      latitude: 51.103685,
-      longitude: 71.428722,
+      latitude: 51.103367,
+      longitude: 71.429098,
     },
   },
   {
@@ -93,13 +93,13 @@ export const partners: Partner[] = [
     category: "entertainment",
     discount: "15%",
     offerLabel: "with student ID",
-    description: "Virtual reality arena with team games. Another branch is at Ahmet Baitursynuly Street, 33/2.",
+    description: "Virtual reality arena with team games. 2GIS lists branches at K. Mukhamedkhanov Street, 17 and Ahmet Baitursynuly Street, 33/2.",
     terms: "Present your student ID for 15% off.",
     location: {
       name: "K. Mukhamedkhanov Street",
       address: "K. Mukhamedkhanov Street, 17",
-      latitude: 51.140854,
-      longitude: 71.38716,
+      latitude: 51.141633,
+      longitude: 71.38737,
     },
   },
 ];
