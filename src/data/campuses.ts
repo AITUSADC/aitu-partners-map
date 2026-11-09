@@ -1,6 +1,6 @@
 import type { Campus } from "../types/campus";
 
-// Buildings supplied by the project owner, separate from the fictional partners.
+// Buildings supplied by the project owner, separate from partner locations.
 // Campus coordinates are approximate building/area locations, not verified entrances.
 // C1 address: https://astanait.edu.kz/ru/contacts
 // C1 coordinates: https://as.bebeshka.info/astana/astana-it-university-1087487/

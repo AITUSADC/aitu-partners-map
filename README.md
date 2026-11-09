@@ -2,7 +2,7 @@
 
 A polished, fullscreen student benefits explorer for Astana, Kazakhstan. Built as a frontend MVP with a custom midnight-blue Mapbox style, an AITU campus hub, partner markers, combined search and category filters, offer cards, and a responsive mobile bottom sheet.
 
-**All 12 businesses and offers are fictional demonstration data. Addresses and coordinates are approximate. No actual partnership or redeemable discount is implied.**
+**Partner offers are taken from the supplied AITU partnership table. Only discounts without an end date are included; expired offers, one-off certificates or prizes, and agreements marked in progress are excluded. Map pins use mapped building points, not exact entrances.**
 
 ## Stack
 
@@ -41,7 +41,7 @@ Without a token, the interface displays **“Mapbox token required”** and a cl
 
 - Search by partner name, and combine the query with any category.
 - Select a list item or marker to open an offer. On the live map, the camera flies to the partner.
-- Open **View offer details** to read the description, sample terms, and location.
+- Open **View offer details** to read the description, terms, and location.
 - Close the card, press Escape, or use reset view to clear selection.
 - Use + / −, **Go to AITU**, and **Reset map view** in the lower right.
 - On mobile, drag the handle or title up/down to expand or collapse the discovery sheet. It follows your finger and settles into position on release; tapping or using the chevron also works. The partner list scrolls independently, and categories scroll horizontally.
@@ -67,7 +67,7 @@ src/
 tests/                   # Filtering and dataset integrity checks
 ```
 
-## Replace demo data
+## Update partner data
 
 Edit **`src/data/partners.ts`** to add or replace partners. The `Partner` interface in **`src/types/partner.ts`** documents the required fields. Every partner needs a unique ID, one of the six categories, a benefit, description, terms, and location. Use verified latitude/longitude and permission to advertise real offers. The two extra fields `offerLabel` and `terms` power the short benefit label and details dialog. An optional `logo` field is reserved for future brand imagery; this MVP uses category icons consistently.
 
@@ -75,7 +75,7 @@ Category labels, colors, and icons live in `src/components/partners/categories.t
 
 ### AITU buildings
 
-The three campus points live in **`src/data/campuses.ts`**, separately from sample partners:
+The three campus points live in **`src/data/campuses.ts`**, separately from partner locations:
 
 - Main building: EXPO block C1, Mangilik El 55/11.
 - MVC: EXPO International Exhibition Center, Mangilik El 53/1; used for some classes, as specified by the project owner.

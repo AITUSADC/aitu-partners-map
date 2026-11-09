@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "AITU partners",
-  description: "Explore the AITU partner network in Astana. A frontend demonstration of exclusive student offers across food, coffee, sport, and more.",
+  description: "Explore AITU partner discounts in Astana, including offer conditions and mapped locations.",
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#030817" };

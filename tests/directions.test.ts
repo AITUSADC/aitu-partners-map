@@ -5,12 +5,12 @@ import { partners } from "../src/data/partners.ts";
 import { getDirectionsUrl } from "../src/lib/directions.ts";
 
 test("directions use each selected campus while keeping the partner destination", () => {
-  const destination = partners.find((partner) => partner.id === "study-hub")!.location;
+  const destination = partners.find((partner) => partner.id === "aki-time")!.location;
   for (const campus of campuses) {
     const url = new URL(getDirectionsUrl(campus, destination));
     const points = decodeURIComponent(url.pathname).split("/points/")[1].split("|");
     assert.equal(points[0], `${campus.longitude},${campus.latitude}`);
-    assert.equal(points[1], "71.4258,51.1286");
+    assert.equal(points[1], `${destination.longitude},${destination.latitude}`);
   }
 });
 
